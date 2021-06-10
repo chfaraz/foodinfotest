@@ -1,8 +1,12 @@
 import { IsNotEmpty, IsArray, IsBoolean } from 'class-validator';
+import { statusEnum } from '../status.enum';
 
-export class CreateProductDto {
+export class UpdateProductDto {
   @IsNotEmpty()
   title: string;
+
+  @IsNotEmpty()
+  status: statusEnum;
 
   @IsNotEmpty()
   description: string;

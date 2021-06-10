@@ -4,6 +4,7 @@ import { CreateProductDto } from '@src/product/dto/product.dto';
 import { Product } from '@src/product/product.entity';
 import { ProductRepository } from '@src/product/product.repository';
 import { Brackets, Like } from 'typeorm';
+import { UpdateProductDto } from './dto/updateProduct.dto';
 import { statusEnum } from './status.enum';
 
 @Injectable()
@@ -37,6 +38,26 @@ export class ProductService {
       throw new NotFoundException('no product found');
     }
     return found;
+  }
+
+  async updateProduct(
+    updateProductDto: UpdateProductDto,
+    id: string,
+  ): Promise<string> {
+    const product = await this.productRepository
+      .createQueryBuilder('product')
+      .update()
+      .set(updateProductDto)
+      .where('id = :id', { id: id })
+      .execute();
+    console.log(product);
+
+    try {
+      // await this.productRepository.save(product);
+    } catch (err) {
+      // throw new NotFoundException('failed...');
+    }
+    return 'product';
   }
 
   async search(search: string): Promise<Product[]> {

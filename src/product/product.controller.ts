@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -14,6 +15,7 @@ import { Product } from '@src/product/product.entity';
 import { ProductService } from '@src/product/product.service';
 import { diskStorage } from 'multer';
 import path = require('path');
+import { UpdateProductDto } from './dto/updateProduct.dto';
 
 export const storage = {
   storage: diskStorage({
@@ -60,6 +62,14 @@ export class ProductController {
     @Body() createProductDto: CreateProductDto,
   ): Promise<Product> {
     return this.productService.addProduct(createProductDto);
+  }
+
+  @Patch('/update/:id')
+  async updateProduct(
+    @Body() updateProductDto: UpdateProductDto,
+    @Param('id') id: string,
+  ): Promise<string> {
+    return this.productService.updateProduct(updateProductDto, id);
   }
 
   @Get('/:id')
