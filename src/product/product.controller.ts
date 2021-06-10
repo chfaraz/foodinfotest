@@ -35,16 +35,19 @@ export const storage = {
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/search')
   async searchProduct(@Query('search') search: string): Promise<Product[]> {
     return this.productService.search(search);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/deleted')
   async getDeleted(): Promise<Product[]> {
     return this.productService.getDeleted();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteProductById(@Param('id') id: string): Promise<string> {
     console.log('=======================>>>>>>>>>', id);
@@ -57,6 +60,7 @@ export class ProductController {
     return this.productService.getAllProducts();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async addProduct(
     @Body() createProductDto: CreateProductDto,
@@ -64,6 +68,7 @@ export class ProductController {
     return this.productService.addProduct(createProductDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('/update/:id')
   async updateProduct(
     @Body() updateProductDto: UpdateProductDto,
@@ -72,6 +77,7 @@ export class ProductController {
     return this.productService.updateProduct(updateProductDto, id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getProductById(@Param('id') id: string): Promise<Product> {
     console.log(id);
