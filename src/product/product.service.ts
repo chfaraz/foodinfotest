@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from '@src/product/dto/product.dto';
 import { Product } from '@src/product/product.entity';
 import { ProductRepository } from '@src/product/product.repository';
-import { Like } from 'typeorm';
+import { Brackets, Like } from 'typeorm';
 import { statusEnum } from './status.enum';
 
 @Injectable()
@@ -57,19 +57,36 @@ export class ProductService {
       ],
     };
 
-    const found = await this.productRepository.find(query);
+    // const found = await this.productRepository.find(query);
 
-    // const find = await this.productRepository
-    //   .createQueryBuilder('product')
-    //   .where('title like :search', { search: `%${search}%` })
-    //   .orWhere(':search= ANY (ingredients)', { search: search })
-    //   .andWhere('status= :statusVar', { statusVar: statusEnum.ACTIVE })
-    //   .getMany();
+    const find = await this.productRepository
+      .createQueryBuilder('product')
+      .where('status= :statusVar', { statusVar: statusEnum.ACTIVE })
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where('title like :search', { search: `%${search}%` }).orWhere(
+            'category like :search',
+            { search: `%${search}%` },
+          );
+        }),
+      )
+      .orWhere(
+        new Brackets((qb) => {
+          qb.where('status= :statusVar', {
+            statusVar: statusEnum.ACTIVE,
+          }).andWhere(':search= ANY (ingredients)', { search: search });
+        }),
+      )
+      .getMany();
 
-    if (!found) {
+    // .where('title like :search', { search: `%${search}%` })
+    // .orWhere(':search= ANY (ingredients)', { search: search })
+    // .andWhere('status= :statusVar', { statusVar: statusEnum.ACTIVE })
+
+    if (!find) {
       throw new NotFoundException('No Product found!');
     }
-    return found;
+    return find;
   }
 
   async delete(id: string): Promise<string> {

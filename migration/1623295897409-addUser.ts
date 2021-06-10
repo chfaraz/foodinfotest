@@ -10,7 +10,7 @@ export class addUser1623295897409 implements MigrationInterface {
     const password = 'admin';
     const hash: string = await bcrypt.hash(password, saltRounds);
     await queryRunner.query(
-      `INSERT INTO public.user ('userName', 'password') VALUES (${userName},${hash});`,
+      `INSERT INTO public.user (userName, password) VALUES (${userName},${hash});`,
     );
   }
 
