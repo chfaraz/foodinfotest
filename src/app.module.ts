@@ -1,26 +1,19 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { ProductModule } from './product/product.module';
-import { AuthModule } from './auth/auth.module';
+import { AppController } from '@src/app.controller';
+import { AppService } from '@src/app.service';
+import { UserModule } from '@src/user/user.module';
+import { ProductModule } from '@src/product/product.module';
+import { AuthModule } from '@src/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from '@src/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '3243',
-      database: 'food',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    ConfigModule.forRoot(),
     UserModule,
     ProductModule,
     AuthModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

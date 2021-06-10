@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UserService } from 'src/user/user.service';
+import { CreateUserDto } from '@src/user/dto/create-user.dto';
+import { UserService } from '@src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

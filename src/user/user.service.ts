@@ -5,16 +5,16 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
-import { UserRepository } from './user.repository';
+import { CreateUserDto } from '@src/user/dto/create-user.dto';
+import { User } from '@src/user/user.entity';
+import { UserRepository } from '@src/user/user.repository';
 import * as bcrypt from 'bcrypt';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '@src/auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserRepository)
+    @Inject('USER_REPOSITORY')
     private userRepository: UserRepository,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
@@ -47,13 +47,13 @@ export class UserService {
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<User> {
-    let { userName, password } = createUserDto;
+    const { password } = createUserDto;
     const saltRounds = 10;
 
     const hash = await bcrypt.hash(password, saltRounds);
 
     const user = this.userRepository.create({
-      userName,
+      ...createUserDto,
       password: hash,
     });
     await this.userRepository.save(user);
