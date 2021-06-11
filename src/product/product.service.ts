@@ -34,9 +34,6 @@ export class ProductService {
       status: statusEnum.ACTIVE,
       id: id,
     });
-    if (!found) {
-      throw new NotFoundException('no product found');
-    }
     return found;
   }
 
@@ -104,9 +101,9 @@ export class ProductService {
     // .orWhere(':search= ANY (ingredients)', { search: search })
     // .andWhere('status= :statusVar', { statusVar: statusEnum.ACTIVE })
 
-    if (!find) {
-      throw new NotFoundException('No Product found!');
-    }
+    // if (!find) {
+    //   throw new NotFoundException('No Product found!');
+    // }
     return find;
   }
 
@@ -136,9 +133,9 @@ export class ProductService {
       status: statusEnum.DELETED,
     });
 
-    if (!found) {
-      throw new NotFoundException('No Product found!');
-    }
+    // if (!found) {
+    //   throw new NotFoundException('No Product found!');
+    // }
     return found;
   }
 }
