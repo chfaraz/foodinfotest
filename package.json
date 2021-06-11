@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "clean": "rm -rf dist",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -21,7 +22,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f ./ormconfig-migrations.ts",
     "migration-create": "typeorm migration:create -n",
-    "migration-generate": "typeorm migration:generate -n",
+    "migration-generate": "typeorm migration:generate -- -n",
     "migration-run": "typeorm migration:run"
   },
   "dependencies": {
