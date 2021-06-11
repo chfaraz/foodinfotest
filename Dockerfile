@@ -29,8 +29,4 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-RUN yarn migration-generate
-
-RUN yarn migration-run
-
 CMD ["node", "dist/main"]
