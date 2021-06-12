@@ -52,6 +52,12 @@ export class ProductController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/deleted/:id')
+  async getDeletedById(@Param('id') id: string): Promise<Product> {
+    return this.productService.getDeletedById(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteProductById(@Param('id') id: string): Promise<string> {
     console.log('=======================>>>>>>>>>', id);
@@ -75,10 +81,10 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Patch('/update/:id')
   async updateProduct(
-    @Body() updateProductDto: UpdateProductDto,
     @Param('id') id: string,
-  ): Promise<string> {
-    return this.productService.updateProduct(updateProductDto, id);
+    @Body() { ...product },
+  ): Promise<Product> {
+    return this.productService.updateProduct(id, product);
   }
 
   @UseGuards(JwtAuthGuard)

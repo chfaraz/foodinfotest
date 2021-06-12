@@ -37,24 +37,20 @@ export class ProductService {
     return found;
   }
 
-  async updateProduct(
-    updateProductDto: UpdateProductDto,
-    id: string,
-  ): Promise<string> {
-    const product = await this.productRepository
-      .createQueryBuilder('product')
-      .update()
-      .set(updateProductDto)
-      .where('id = :id', { id: id })
-      .execute();
+  async updateProduct(id: string, { ...product }): Promise<Product> {
     console.log(product);
 
-    try {
-      // await this.productRepository.save(product);
-    } catch (err) {
-      // throw new NotFoundException('failed...');
-    }
-    return 'product';
+    await this.productRepository
+      .createQueryBuilder('product')
+      .update()
+      .set({ ...product })
+      .where('id = :id', { id: id })
+      .execute();
+
+    const found = await this.productRepository.findOne({
+      id: id,
+    });
+    return found;
   }
 
   async search(search: string): Promise<Product[]> {
@@ -140,6 +136,13 @@ export class ProductService {
       .getMany();
     console.log(found);
 
+    return found;
+  }
+  async getDeletedById(id: string): Promise<Product> {
+    const found = await this.productRepository.findOne({
+      status: statusEnum.DELETED,
+      id: id,
+    });
     return found;
   }
 }

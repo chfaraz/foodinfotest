@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsArray, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsArray, IsBoolean, IsUrl } from 'class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -17,6 +17,7 @@ export class CreateProductDto {
   reason: string;
 
   @IsNotEmpty()
+  @IsUrl()
   image: string;
 
   @IsBoolean()
