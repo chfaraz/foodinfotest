@@ -30,7 +30,7 @@ export class UserService {
     const found = await this.userRepository.findOne({ userName: userName });
 
     if (!found) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('invalid credentials');
     }
     console.log(found);
 
@@ -38,7 +38,7 @@ export class UserService {
     console.log(isMatch);
 
     if (!isMatch) {
-      throw new NotFoundException('Wrong Password...');
+      throw new NotFoundException('invalid credentials');
     }
     const token = await this.authService.login(createUserDto);
     console.log(token);

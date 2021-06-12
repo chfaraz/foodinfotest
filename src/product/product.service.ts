@@ -58,44 +58,36 @@ export class ProductService {
   }
 
   async search(search: string): Promise<Product[]> {
-    // const query = {
-    //   where: [
-    //     {
-    //       title: Like(`%${search}%`),
-    //       status: statusEnum.ACTIVE,
-    //     },
-    //     {
-    //       description: Like(`%${search}%`),
-    //       status: statusEnum.ACTIVE,
-    //     },
-    //     {
-    //       ingredients: Like(`%${search}%`),
-    //       status: statusEnum.ACTIVE,
-    //     },
-    //   ],
-    // };
+    const query = {
+      where: [
+        {
+          title: Like(`%${search}%`),
+          status: statusEnum.ACTIVE,
+        },
+      ],
+    };
 
-    // const found = await this.productRepository.find(query);
+    const found = await this.productRepository.find(query);
 
-    const find = await this.productRepository
-      .createQueryBuilder('product')
-      .where('status= :statusVar', { statusVar: statusEnum.ACTIVE })
-      .andWhere(
-        new Brackets((qb) => {
-          qb.where('title like :search', { search: `%${search}%` }).orWhere(
-            'category like :search',
-            { search: `%${search}%` },
-          );
-        }),
-      )
-      .orWhere(
-        new Brackets((qb) => {
-          qb.where('status= :statusVar', {
-            statusVar: statusEnum.ACTIVE,
-          }).andWhere(':search= ANY (ingredients)', { search: search });
-        }),
-      )
-      .getMany();
+    // const find = await this.productRepository
+    //   .createQueryBuilder('product')
+    //   .where('status= :statusVar', { statusVar: statusEnum.ACTIVE })
+    //   .andWhere(
+    //     new Brackets((qb) => {
+    //       qb.where('title like :search', { search: `%${search}%` }).orWhere(
+    //         'category like :search',
+    //         { search: `%${search}%` },
+    //       );
+    //     }),
+    //   )
+    //   .orWhere(
+    //     new Brackets((qb) => {
+    //       qb.where('status= :statusVar', {
+    //         statusVar: statusEnum.ACTIVE,
+    //       }).andWhere(':search= ANY (ingredients)', { search: search });
+    //     }),
+    //   )
+    //   .getMany();
 
     // .where('title like :search', { search: `%${search}%` })
     // .orWhere(':search= ANY (ingredients)', { search: search })
@@ -104,7 +96,7 @@ export class ProductService {
     // if (!find) {
     //   throw new NotFoundException('No Product found!');
     // }
-    return find;
+    return found;
   }
 
   async delete(id: string): Promise<string> {
@@ -136,6 +128,18 @@ export class ProductService {
     // if (!found) {
     //   throw new NotFoundException('No Product found!');
     // }
+    return found;
+  }
+  async searchTitle(search: string): Promise<any[]> {
+    console.log(search);
+
+    const found = await this.productRepository
+      .createQueryBuilder('product')
+      .select(['product.title'])
+      .where('title like :search', { search: `%${search}%` })
+      .getMany();
+    console.log(found);
+
     return found;
   }
 }

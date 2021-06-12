@@ -35,10 +35,14 @@ export const storage = {
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('/search')
   async searchProduct(@Query('search') search: string): Promise<Product[]> {
     return this.productService.search(search);
+  }
+
+  @Get('/title')
+  async searchTitle(@Query('search') search: string): Promise<any[]> {
+    return this.productService.searchTitle(search);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -54,7 +58,7 @@ export class ProductController {
 
     return this.productService.delete(id);
   }
-  @UseGuards(JwtAuthGuard)
+
   @Get('/')
   async getProducts(): Promise<Product[]> {
     return this.productService.getAllProducts();
