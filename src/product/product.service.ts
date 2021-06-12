@@ -58,22 +58,22 @@ export class ProductService {
   }
 
   async search(search: string): Promise<Product[]> {
-    const query = {
-      where: [
-        {
-          title: Like(`%${search}%`),
-          status: statusEnum.ACTIVE,
-        },
-        {
-          description: Like(`%${search}%`),
-          status: statusEnum.ACTIVE,
-        },
-        {
-          ingredients: Like(`%${search}%`),
-          status: statusEnum.ACTIVE,
-        },
-      ],
-    };
+    // const query = {
+    //   where: [
+    //     {
+    //       title: Like(`%${search}%`),
+    //       status: statusEnum.ACTIVE,
+    //     },
+    //     {
+    //       description: Like(`%${search}%`),
+    //       status: statusEnum.ACTIVE,
+    //     },
+    //     {
+    //       ingredients: Like(`%${search}%`),
+    //       status: statusEnum.ACTIVE,
+    //     },
+    //   ],
+    // };
 
     // const found = await this.productRepository.find(query);
 
