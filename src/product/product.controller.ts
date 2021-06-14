@@ -15,7 +15,6 @@ import { Product } from '@src/product/product.entity';
 import { ProductService } from '@src/product/product.service';
 import { diskStorage } from 'multer';
 import path = require('path');
-import { UpdateProductDto } from './dto/updateProduct.dto';
 
 export const storage = {
   storage: diskStorage({
@@ -47,18 +46,6 @@ export class ProductController {
   async searchTitle(@Query('search') search: string): Promise<any[]> {
     return this.productService.searchTitle(search);
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Get('/deleted')
-  // async getDeleted(): Promise<Product[]> {
-  //   return this.productService.getDeleted();
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Get('/deleted/:id')
-  // async getDeletedById(@Param('id') id: string): Promise<Product> {
-  //   return this.productService.getDeletedById(id);
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')

@@ -3,8 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from '@src/product/dto/product.dto';
 import { Product } from '@src/product/product.entity';
 import { ProductRepository } from '@src/product/product.repository';
-import { Brackets, Like } from 'typeorm';
-import { UpdateProductDto } from './dto/updateProduct.dto';
+import { Like } from 'typeorm';
 import { statusEnum } from './status.enum';
 
 @Injectable()
@@ -120,16 +119,6 @@ export class ProductService {
     return 'deleted successfully.';
   }
 
-  // async getDeleted(): Promise<Product[]> {
-  //   const found = await this.productRepository.find({
-  //     status: statusEnum.DELETED,
-  //   });
-
-  //   // if (!found) {
-  //   //   throw new NotFoundException('No Product found!');
-  //   // }
-  //   return found;
-  // }
   async searchTitle(search: string): Promise<any[]> {
     console.log(search);
 
@@ -142,11 +131,4 @@ export class ProductService {
 
     return found;
   }
-  // async getDeletedById(id: string): Promise<Product> {
-  //   const found = await this.productRepository.findOne({
-  //     status: statusEnum.DELETED,
-  //     id: id,
-  //   });
-  //   return found;
-  // }
 }
