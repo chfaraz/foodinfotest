@@ -30,6 +30,6 @@ export class Product {
   @Column()
   recommended: boolean;
 
-  @Column({ default: new Date() })
-  createdAt: Date;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: string;
 }

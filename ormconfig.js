@@ -1,10 +1,11 @@
 module.exports = {
   type: 'postgres',
-  host: process.env.DB_HOST, //host be should be set to 'localhost' for generating migrations
+  host: process.env.DB_HOST, //host should be set to 'localhost' for generating migrations
   port: parseInt(process.env.DB_PORT),
   username: process.env.DB_USER_NAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  //commwnt out for local
   ssl: {
     rejectUnauthorized: false,
   },
