@@ -35,9 +35,12 @@ export const storage = {
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @Get('/search')
-  async searchProduct(@Query('search') search: string): Promise<Product[]> {
-    return this.productService.search(search);
+  @Get('/search/:status')
+  async searchProduct(
+    @Query('search') search: string,
+    @Param('status') status: string,
+  ): Promise<Product[]> {
+    return this.productService.search(search, status);
   }
 
   @Get('/title')
@@ -45,17 +48,17 @@ export class ProductController {
     return this.productService.searchTitle(search);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('/deleted')
-  async getDeleted(): Promise<Product[]> {
-    return this.productService.getDeleted();
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('/deleted')
+  // async getDeleted(): Promise<Product[]> {
+  //   return this.productService.getDeleted();
+  // }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('/deleted/:id')
-  async getDeletedById(@Param('id') id: string): Promise<Product> {
-    return this.productService.getDeletedById(id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('/deleted/:id')
+  // async getDeletedById(@Param('id') id: string): Promise<Product> {
+  //   return this.productService.getDeletedById(id);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')
@@ -65,8 +68,13 @@ export class ProductController {
     return this.productService.delete(id);
   }
 
+  @Get('/:status')
+  async getProducts(@Param('status') status: string): Promise<Product[]> {
+    return this.productService.getProducts(status);
+  }
+
   @Get('/')
-  async getProducts(): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     return this.productService.getAllProducts();
   }
 
@@ -87,7 +95,6 @@ export class ProductController {
     return this.productService.updateProduct(id, product);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getProductById(@Param('id') id: string): Promise<Product> {
     console.log(id);

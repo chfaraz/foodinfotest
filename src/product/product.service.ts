@@ -15,8 +15,12 @@ export class ProductService {
     private productRepository: ProductRepository,
   ) {}
 
+  async getProducts(status: string): Promise<Product[]> {
+    return this.productRepository.find({ status: parseInt(status) });
+  }
+
   async getAllProducts(): Promise<Product[]> {
-    return this.productRepository.find({ status: statusEnum.ACTIVE });
+    return this.productRepository.find();
   }
 
   async addProduct(createProductDto: CreateProductDto): Promise<Product> {
@@ -53,12 +57,12 @@ export class ProductService {
     return found;
   }
 
-  async search(search: string): Promise<Product[]> {
+  async search(search: string, status: string): Promise<Product[]> {
     const query = {
       where: [
         {
           title: Like(`%${search}%`),
-          status: statusEnum.ACTIVE,
+          status: parseInt(status),
         },
       ],
     };
@@ -116,16 +120,16 @@ export class ProductService {
     return 'deleted successfully.';
   }
 
-  async getDeleted(): Promise<Product[]> {
-    const found = await this.productRepository.find({
-      status: statusEnum.DELETED,
-    });
+  // async getDeleted(): Promise<Product[]> {
+  //   const found = await this.productRepository.find({
+  //     status: statusEnum.DELETED,
+  //   });
 
-    // if (!found) {
-    //   throw new NotFoundException('No Product found!');
-    // }
-    return found;
-  }
+  //   // if (!found) {
+  //   //   throw new NotFoundException('No Product found!');
+  //   // }
+  //   return found;
+  // }
   async searchTitle(search: string): Promise<any[]> {
     console.log(search);
 
@@ -138,11 +142,11 @@ export class ProductService {
 
     return found;
   }
-  async getDeletedById(id: string): Promise<Product> {
-    const found = await this.productRepository.findOne({
-      status: statusEnum.DELETED,
-      id: id,
-    });
-    return found;
-  }
+  // async getDeletedById(id: string): Promise<Product> {
+  //   const found = await this.productRepository.findOne({
+  //     status: statusEnum.DELETED,
+  //     id: id,
+  //   });
+  //   return found;
+  // }
 }
