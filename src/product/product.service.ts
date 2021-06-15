@@ -119,15 +119,17 @@ export class ProductService {
     return 'deleted successfully.';
   }
 
-  async searchTitle(search: string): Promise<any[]> {
-    console.log(search);
+  async searchTitle(search: string, status: string): Promise<Product[]> {
+    const query = {
+      where: [
+        {
+          title: Like(`%${search}%`),
+          status: parseInt(status),
+        },
+      ],
+    };
 
-    const found = await this.productRepository
-      .createQueryBuilder('product')
-      .select(['product.title'])
-      .where('title like :search', { search: `%${search}%` })
-      .getMany();
-    console.log(found);
+    const found = await this.productRepository.find(query);
 
     return found;
   }

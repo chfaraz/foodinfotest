@@ -42,9 +42,12 @@ export class ProductController {
     return this.productService.search(search, status);
   }
 
-  @Get('/title')
-  async searchTitle(@Query('search') search: string): Promise<any[]> {
-    return this.productService.searchTitle(search);
+  @Get('/title/:status')
+  async searchTitle(
+    @Query('search') search: string,
+    @Param('status') status: string,
+  ): Promise<Product[]> {
+    return this.productService.searchTitle(search, status);
   }
 
   @UseGuards(JwtAuthGuard)
