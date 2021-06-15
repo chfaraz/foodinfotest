@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from '@src/product/dto/product.dto';
 import { Product } from '@src/product/product.entity';
 import { ProductRepository } from '@src/product/product.repository';
-import { Like } from 'typeorm';
+import { ILike } from 'typeorm';
 import { statusEnum } from './status.enum';
 
 @Injectable()
@@ -60,7 +60,7 @@ export class ProductService {
     const query = {
       where: [
         {
-          title: Like(`%${search}%`),
+          title: ILike(`%${search}%`),
           status: parseInt(status),
         },
       ],
@@ -123,7 +123,7 @@ export class ProductService {
     const query = {
       where: [
         {
-          title: Like(`%${search}%`),
+          title: ILike(`%${search}%`),
           status: parseInt(status),
         },
       ],

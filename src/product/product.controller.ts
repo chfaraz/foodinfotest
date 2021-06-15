@@ -57,6 +57,12 @@ export class ProductController {
 
     return this.productService.delete(id);
   }
+  @Get('/:id')
+  async getProductById(@Param('id') id: string): Promise<Product> {
+    console.log(id);
+
+    return this.productService.getProductById(id);
+  }
 
   @Get('/:status')
   async getProducts(@Param('status') status: string): Promise<Product[]> {
@@ -83,12 +89,5 @@ export class ProductController {
     @Body() { ...product },
   ): Promise<Product> {
     return this.productService.updateProduct(id, product);
-  }
-
-  @Get('/:id')
-  async getProductById(@Param('id') id: string): Promise<Product> {
-    console.log(id);
-
-    return this.productService.getProductById(id);
   }
 }
