@@ -5,7 +5,7 @@ module.exports = {
   username: process.env.DB_USER_NAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  //commwnt out for local
+  //commment out for local
   // ssl: {
   //   rejectUnauthorized: false,
   // },

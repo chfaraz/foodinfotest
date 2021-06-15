@@ -50,6 +50,11 @@ export class ProductController {
     return this.productService.searchTitle(search, status);
   }
 
+  @Get('/status/:status')
+  async getProducts(@Param('status') status: string): Promise<Product[]> {
+    return this.productService.getProducts(status);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteProductById(@Param('id') id: string): Promise<string> {
@@ -62,11 +67,6 @@ export class ProductController {
     console.log(id);
 
     return this.productService.getProductById(id);
-  }
-
-  @Get('/:status')
-  async getProducts(@Param('status') status: string): Promise<Product[]> {
-    return this.productService.getProducts(status);
   }
 
   @Get('/')

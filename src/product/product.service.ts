@@ -120,16 +120,15 @@ export class ProductService {
   }
 
   async searchTitle(search: string, status: string): Promise<Product[]> {
-    const query = {
-      where: [
-        {
-          title: ILike(`%${search}%`),
-          status: parseInt(status),
-        },
-      ],
-    };
+    console.log(search);
 
-    const found = await this.productRepository.find(query);
+    const found = await this.productRepository
+      .createQueryBuilder('product')
+      .select(['product.title'])
+      .where('title ilike :search', { search: `%${search}%` })
+      .andWhere('status= :statusVar', { statusVar: status })
+      .getMany();
+    console.log(found);
 
     return found;
   }
