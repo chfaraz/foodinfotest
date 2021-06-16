@@ -50,6 +50,7 @@ export class ProductController {
     return this.productService.searchTitle(search, status);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/status/:status')
   async getProducts(@Param('status') status: string): Promise<Product[]> {
     return this.productService.getProducts(status);

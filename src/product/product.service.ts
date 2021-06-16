@@ -20,6 +20,13 @@ export class ProductService {
 
   async getAllProducts(): Promise<Product[]> {
     return this.productRepository.find();
+    //   const found = await this.productRepository
+    //   .createQueryBuilder()
+    //   .offset(skippedItems)
+    //   .limit(6)
+    //   .where({ status: parseInt(status) })
+    //   .getMany();
+    // return found;
   }
 
   async addProduct(createProductDto: CreateProductDto): Promise<Product> {

@@ -43,7 +43,7 @@ export class UserService {
     const token = await this.authService.login(createUserDto);
     console.log(token);
 
-    return { ...found, token };
+    return { userName, token };
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<User> {
