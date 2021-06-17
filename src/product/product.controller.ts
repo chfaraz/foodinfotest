@@ -57,6 +57,14 @@ export class ProductController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Delete('/delete/:id')
+  async deletePermanent(@Param('id') id: string): Promise<string> {
+    console.log('==================>>>>>>>>>>>>>>>>>>');
+
+    return this.productService.deletePermanent(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteProductById(@Param('id') id: string): Promise<string> {
     console.log('=======================>>>>>>>>>', id);

@@ -139,4 +139,17 @@ export class ProductService {
 
     return found;
   }
+  async deletePermanent(id: string): Promise<string> {
+    // const found = await this.productRepository.find({ id });
+    const found = await this.productRepository
+      .createQueryBuilder('product')
+      .delete()
+      .where('id = :id', { id: id })
+      .execute();
+
+    if (!found) {
+      throw new NotFoundException('No Product found!');
+    }
+    return 'deleted successfully.';
+  }
 }
