@@ -25,6 +25,8 @@ COPY package*.json ./
 
 RUN npm i -g yarn 
 
+COPY yarn.lock ./
+
 RUN yarn install --only=production
 
 COPY . .
