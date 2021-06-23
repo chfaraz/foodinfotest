@@ -12,28 +12,28 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 80:80
-    command: yarn start:dev
+    command: yarn start
     env_file:
       - .env
     networks:
       - webnet
-    depends_on:
-      - postgres
-  postgres:
-    container_name: postgres
-    image: postgres:12
-    networks:
-      - webnet
-    environment:
-      POSTGRES_PASSWORD: ${DB_PORT}
-      POSTGRES_USER: ${DB_USER_NAME}
-      POSTGRES_DB: ${DB_NAME}
-      PG_DATA: /var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    # depends_on:
+    #   - postgres
+  # postgres:
+  #   container_name: postgres
+  #   image: postgres:12
+  #   networks:
+  #     - webnet
+  #   environment:
+  #     POSTGRES_PASSWORD: ${DB_PORT}
+  #     POSTGRES_USER: ${DB_USER_NAME}
+  #     POSTGRES_DB: ${DB_NAME}
+  #     PG_DATA: /var/lib/postgresql/data
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
 networks:
   webnet:
-volumes:
-  pgdata:
+# volumes:
+#   pgdata:
