@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 export const hash = async () => {
   const password = process.env.USER_PASSWORD;
