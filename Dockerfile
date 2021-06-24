@@ -12,6 +12,8 @@ RUN yarn install --only=development
 
 COPY . .
 
+EXPOSE 80
+
 RUN yarn run build
 
 FROM node:12.13-alpine as production
@@ -31,6 +33,8 @@ RUN yarn install --only=production
 
 COPY . .
 
+EXPOSE 80
+
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "src/main"]
+CMD ["node", "dist/src/main"]
