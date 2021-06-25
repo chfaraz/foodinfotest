@@ -12,30 +12,71 @@ on:
   push:
     branches: [dev]
 # Your workflows jobs.
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        python-version: [3.7]
+
     steps:
-      # Check-out your repository.
-      - name: Checkout
-        uses: actions/checkout@v2
-
-
-### ⬇ IMPORTANT PART ⬇ ###
-
-      - name: Build, Push and Release a Docker container to Heroku. # Your custom step name
-        uses: gonuit/heroku-docker-deploy@v1.3.3 # GitHub action name (leave it as it is).
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
         with:
-          # Below you must provide variables for your Heroku app.
+          node-version: ${{ matrix.node-version }}
+      - name: Use Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build and test
+        run: |
+          npm i
+          npm run build
+          git config --global user.email "actions@bot"
+          git config --global user.name "ActionsBot"
+          git add .
+          git commit -m "CI: $(git log -1 --pretty=%B)"
+          git status
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.FOOD_AK }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.FOOD_SAK }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade awsebcli
+          eb --version
+          eb init foodtest --region us-east-1 --platform node.js-12
+          eb deploy
 
-          # The email address associated with your Heroku account.
-          # If you don't want to use repository secrets (which is recommended) you can do:
-          # email: my.email@example.com
-         # email: ${{ secrets.HEROKU_EMAIL }}
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # Check-out your repository.
+#       - name: Checkout
+#         uses: actions/checkout@v2
+
+
+# ### ⬇ IMPORTANT PART ⬇ ###
+
+#       - name: Build, Push and Release a Docker container to Heroku. # Your custom step name
+#         uses: gonuit/heroku-docker-deploy@v1.3.3 # GitHub action name (leave it as it is).
+#         with:
+#           # Below you must provide variables for your Heroku app.
+
+#           # The email address associated with your Heroku account.
+#           # If you don't want to use repository secrets (which is recommended) you can do:
+#           # email: my.email@example.com
+#          # email: ${{ secrets.HEROKU_EMAIL }}
           
-          # Heroku API key associated with provided user's email.
-          # Api Key is available under your Heroku account settings.
-        #  heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+#           # Heroku API key associated with provided user's email.
+#           # Api Key is available under your Heroku account settings.
+#         #  heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           
-          # Name of the heroku application to which the build is to be sent.
-       #   heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+#           # Name of the heroku application to which the build is to be sent.
+#        #   heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
