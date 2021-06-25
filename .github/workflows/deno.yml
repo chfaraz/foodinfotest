@@ -51,7 +51,7 @@ jobs:
           pip install --upgrade awsebcli
           eb --version
           eb init foodtest --region us-east-1 --platform node.js-12
-          eb deploy my-env
+          eb create
 
 # jobs:
 #   build:
